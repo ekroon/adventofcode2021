@@ -1,44 +1,49 @@
+import sys
+import os.path as ospath
+import math
+
+
+def clamp(x, min, max):
+    if x > max:
+        return max
+    elif x < min:
+        return min
+    return x
+
+
+def bin_iter_to_int(iter, conversion = lambda x: x):
+    return int("".join([str(conversion(x)) for x in iter]), 2)
+
+
 if __name__ == '__main__':
-    total = 0
-    counter = [0 for _x in range(12)]
-    with open("03.txt") as f:
-        parsed = []
-        for s in f:
-            total += 1
-            line = s.strip()
-            idx = 0
-            parsed_line = [int(s) for s in line]
-            parsed.append(parsed_line)
-            for n in line:
-                match n:
-                    case "1":
-                        counter[idx] = counter[idx] + 1
-                idx += 1
+    infile = sys.argv[1] if len(sys.argv)>1 else ospath.splitext(__file__)[0] + ".txt"
+    print(infile)
 
-        zeros = [total - counter[idx] for idx in range(12)]
-        ones = [counter[idx] for idx in range(12)]
-        most = int("".join([str(int(one > zero)) for one, zero in zip(ones, zeros)]), 2)
-        least = int("".join([str(int(one < zero)) for one, zero in zip(ones, zeros)]), 2)
-        print(most * least)
+    with open(infile) as f:
+        lines = [line.strip() for line in f.readlines()]
 
-    idx = 0
-    lines = parsed[:]
-    while len(lines) > 1:
-        to_beat = len(lines) / 2
-        ones = sum([line[idx] for line in lines])
-        most = 1 if ones >= to_beat else 0
-        lines = [line for line in lines if line[idx] == most]
-        idx += 1
-    oxygen = int("".join([str(n) for n in lines[0]]), 2)
+    parsed = [[1 if c == "1" else 0 for c in line] for line in lines]
 
-    idx = 0
-    lines = parsed[:]
-    while len(lines) > 1:
-        to_beat = len(lines) / 2
-        ones = sum([line[idx] for line in lines])
-        least = 1 if ones < to_beat else 0
-        lines = [line for line in lines if line[idx] == least]
-        idx += 1
-    co2 = int("".join([str(n) for n in lines[0]]), 2)
+    # part 1: count numbers up from half the number of lines
+    counts = [-int(len(parsed) / 2)] * len(parsed[0])
+    for binary in parsed:
+        for number_idx, x in enumerate(binary):
+            counts[number_idx] += x
 
-    print(oxygen * co2)
+    # part 1: clamp numbers between 0 and 1, negative becomes a 0 for more zeroes, positive a 1 for more 1s
+    gamma = bin_iter_to_int(counts, lambda x: clamp(x, 0, 1))
+    epsilon = bin_iter_to_int(counts, lambda x: 1 - clamp(x, 0, 1)) # we swap 0s and 1s for least common bit
+    print(gamma * epsilon)
+
+    # part 2: we sort the list by current index and pick the middle for most common and swap 0s and 1s for co2
+    step_configurations = [[list(parsed), lambda pick: pick], [list(parsed), lambda pick: 1 - pick]]
+    for number_idx in range(len(parsed[0])):
+        for idx, (binaries, pick_fn) in enumerate(step_configurations):
+            if len(binaries) > 1:
+                binaries = sorted(binaries, key=lambda x: x[number_idx])
+                pick = pick_fn(binaries[math.floor(len(binaries) / 2)][number_idx])
+                step_configurations[idx][0] = [binary for binary in binaries if binary[number_idx] == pick]
+
+    oxygen = bin_iter_to_int(step_configurations[0][0][0])
+    co2 = bin_iter_to_int(step_configurations[1][0][0])
+    print(oxygen*co2)
