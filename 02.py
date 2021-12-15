@@ -1,4 +1,4 @@
-if __name__ == '__main__':
+if __name__ == "__main__":
     forward = 0
     depth1 = 0
     depth2 = 0

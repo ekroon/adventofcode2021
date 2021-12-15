@@ -2,11 +2,13 @@ import sys
 import os.path as ospath
 import math
 
+
 def mark_number_board(board, number):
     for y, line in enumerate(board):
         for x, board_number in enumerate(line):
             if board_number == number:
                 board[y][x] = None
+
 
 def is_winning_board(board):
     for loop_nr, line in enumerate(board):
@@ -45,8 +47,8 @@ def solve(numbers, boards):
     return scores[0], scores[-1]
 
 
-if __name__ == '__main__':
-    infile = sys.argv[1] if len(sys.argv)>1 else ospath.splitext(__file__)[0] + ".txt"
+if __name__ == "__main__":
+    infile = sys.argv[1] if len(sys.argv) > 1 else ospath.splitext(__file__)[0] + ".txt"
 
     with open(infile) as f:
         lines = [line.strip() for line in f.readlines()]
@@ -68,8 +70,3 @@ if __name__ == '__main__':
     results = solve(numbers, boards)
     print(results[0])
     print(results[1])
-
-
-
-
-

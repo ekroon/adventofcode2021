@@ -25,7 +25,9 @@ def solve1(lines):
         else:
             step_x = 1 if x1 <= x2 else -1
             step_y = 1 if y1 <= y2 else -1
-            for (x, y) in zip(range(x1, x2 + step_x, step_x), range(y1, y2 + step_y, step_y)):
+            for (x, y) in zip(
+                range(x1, x2 + step_x, step_x), range(y1, y2 + step_y, step_y)
+            ):
                 sea[(x, y)] += 1
 
     return len([n for n in sea.values() if n > 1])
@@ -51,13 +53,16 @@ def filter_horizontal_vertical(line):
     return x1 == x2 or y1 == y2
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     infile = sys.argv[1] if len(sys.argv) > 1 else ospath.splitext(__file__)[0] + ".txt"
 
     with open(infile) as f:
         lines = [line.strip() for line in f.readlines()]
 
-    lines = [[[int(pair) for pair in pairs.split(",")] for pairs in line.split(" -> ")] for line in lines]
+    lines = [
+        [[int(pair) for pair in pairs.split(",")] for pairs in line.split(" -> ")]
+        for line in lines
+    ]
 
     lines_part1 = list(filter(filter_horizontal_vertical, lines))
     part1_solve1 = solve1(lines_part1)

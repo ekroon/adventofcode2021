@@ -3,7 +3,7 @@ import os.path as ospath
 from collections import defaultdict
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     infile = sys.argv[1] if len(sys.argv) > 1 else ospath.splitext(__file__)[0] + ".txt"
 
     with open(infile) as f:
@@ -14,7 +14,7 @@ if __name__ == '__main__':
     for n in numbers:
         crab_locations[n] += 1
 
-    location_part1 = sorted(numbers)[len(numbers)//2]
+    location_part1 = sorted(numbers)[len(numbers) // 2]
     location_part2 = sum(numbers) // len(numbers)
 
     fuel_part1 = 0
@@ -30,5 +30,3 @@ if __name__ == '__main__':
 
     print(fuel_part1)
     print(int(fuel_part2))
-
-

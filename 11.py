@@ -7,11 +7,13 @@ def neighbours(y, x, y_size, x_size):
     n = []
     for i in range(-1, 2):
         for j in range(-1, 2):
-            n.append((y + i, x + j)) if 0 <= y + i < y_size and 0 <= x + j < x_size else None
+            n.append(
+                (y + i, x + j)
+            ) if 0 <= y + i < y_size and 0 <= x + j < x_size else None
     return n
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     infile = sys.argv[1] if len(sys.argv) > 1 else ospath.splitext(__file__)[0] + ".txt"
 
     with open(infile) as f:
@@ -27,7 +29,7 @@ if __name__ == '__main__':
     all_indexes = deque()
     for i in range(0, 10):
         for j in range(0, 10):
-            all_indexes.append((i,j))
+            all_indexes.append((i, j))
 
     for step in range(0, 1000):
         flashed = set()
@@ -45,7 +47,7 @@ if __name__ == '__main__':
         for (i, j) in flashed:
             octopuses[i][j] = 0
         if len(flashed) == 100:
-            part2 = step+1
+            part2 = step + 1
             break
 
     print(part1)

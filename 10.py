@@ -6,24 +6,24 @@ def line_score(line):
     stack = []
     for char in line:
         match char:
-            case '(':
-                stack.append(')')
-            case '[':
-                stack.append(']')
-            case '{':
-                stack.append('}')
-            case '<':
-                stack.append('>')
+            case "(":
+                stack.append(")")
+            case "[":
+                stack.append("]")
+            case "{":
+                stack.append("}")
+            case "<":
+                stack.append(">")
             case _:
                 if stack.pop() != char:
                     match char:
-                        case ')':
+                        case ")":
                             return 3, stack
-                        case ']':
+                        case "]":
                             return 57, stack
-                        case '}':
+                        case "}":
                             return 1197, stack
-                        case '>':
+                        case ">":
                             return 25137, stack
     return 0, stack
 
@@ -34,18 +34,18 @@ def stack_score(stack):
         c = stack.pop()
         total *= 5
         match c:
-            case ')':
+            case ")":
                 total += 1
-            case ']':
+            case "]":
                 total += 2
-            case '}':
+            case "}":
                 total += 3
-            case '>':
+            case ">":
                 total += 4
     return total
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     infile = sys.argv[1] if len(sys.argv) > 1 else ospath.splitext(__file__)[0] + ".txt"
 
     with open(infile) as f:

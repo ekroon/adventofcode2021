@@ -11,7 +11,7 @@ def neighbours(y, x, y_size, x_size):
     return n
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     infile = sys.argv[1] if len(sys.argv) > 1 else ospath.splitext(__file__)[0] + ".txt"
 
     with open(infile) as f:
@@ -47,4 +47,8 @@ if __name__ == '__main__':
         basins.append(seen)
 
     print(sum([height + 1 for (_y, _x, height) in low_parts]))
-    print(reduce(lambda acc, n: acc * n, sorted([len(b) for b in basins], reverse=True)[:3]))
+    print(
+        reduce(
+            lambda acc, n: acc * n, sorted([len(b) for b in basins], reverse=True)[:3]
+        )
+    )

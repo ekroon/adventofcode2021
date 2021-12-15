@@ -3,7 +3,7 @@ import os.path as ospath
 from collections import defaultdict
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     infile = sys.argv[1] if len(sys.argv) > 1 else ospath.splitext(__file__)[0] + ".txt"
 
     with open(infile) as f:
@@ -16,12 +16,12 @@ if __name__ == '__main__':
         school[n] += 1
 
     part1 = None
-    for rounds in range (0, 256):
+    for rounds in range(0, 256):
         new_school = defaultdict(int)
         new_school[6] = school[0]
         new_school[8] = school[0]
         for i in range(1, 9):
-            new_school[i-1] += school[i]
+            new_school[i - 1] += school[i]
         school = new_school
         if rounds == 80:
             part1 = school

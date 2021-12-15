@@ -41,7 +41,7 @@ def alternative_2():
     return results
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     increasing = 0
     previous = None
     with open("01.txt") as f:
